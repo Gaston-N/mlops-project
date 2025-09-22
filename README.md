@@ -1,6 +1,7 @@
 # ITU BDS MLOPS'25 - Project Fork
 
 Authors:
+
     - Gaston Navarro
     - Marin-Madalin Giurgica
     - Alex Matlok

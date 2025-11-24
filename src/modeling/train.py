@@ -110,8 +110,8 @@ with mlflow.start_run(experiment_id=experiment_id) as run:
     lr_model_path = "./artifacts/lead_model_lr.pkl"
 
     params = {
-              'solver': ["newton-cg", "lbfgs", "liblinear", "sag", "saga"],
-              'penalty':  ["none", "l1", "l2", "elasticnet"],
+              'solver': ["newton-cg", "lbfgs", "sag", "saga"], # deleted 'liblinear' 
+              'penalty':  [None, "l2"], # deleted 'l1' and 'elasticnet'
               'C' : [100, 10, 1.0, 0.1, 0.01]
     }
     model_grid = RandomizedSearchCV(model, param_distributions= params, verbose=3, n_iter=10, cv=3)

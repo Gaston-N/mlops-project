@@ -1,0 +1,32 @@
+name: Run Dagger pipeline
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  dagger:
+    name: Run Dagger pipeline
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Dagger pipeline
+        uses: dagger/dagger-for-github@v8.2.0
+        with:
+          workdir: .
+          verb: run
+          args: python3 pipeline.py
+          version: "0.19.6"

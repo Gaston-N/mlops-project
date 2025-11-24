@@ -29,4 +29,4 @@ jobs:
           workdir: .
           verb: run
           args: python3 pipeline.py
-          version: "0.19.6"
+          version: "0.19.7"

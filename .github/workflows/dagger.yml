@@ -1,4 +1,4 @@
-name: Run Dagger pipeline
+name: Setup Dagger Pipeline
 
 on:
   push:
@@ -15,18 +15,30 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Setup Go
+        uses: actions/setup-go@v5
         with:
-          python-version: "3.10"
+          go-version: "1.25.0"
+          cache: false
 
-      - name: Install Python dependencies
-        run: pip install -r requirements.txt
+      - name: Install Go dependencies
+        run: |
+          if [ -f go.mod ]; then
+            go mod download
+          fi
 
       - name: Run Dagger pipeline
         uses: dagger/dagger-for-github@v8.2.0
         with:
-          workdir: .
           verb: run
-          args: python3 pipeline.py
+          args: go run pipeline.go
           version: "0.19.7"
+
+      - name: Upload Model Artifact
+        uses: actions/upload-artifact@v4.4.0
+        with:
+          name: model
+          path: data/processed/lead_model_lr.pkl
+
+      - name: Run Model Inference Test Action
+        uses: lasselundstenjensen/itu-sdse-project-model-validator@main

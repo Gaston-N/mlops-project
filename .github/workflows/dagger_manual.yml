@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  pull_request:
   workflow_dispatch:
 
 jobs:
@@ -25,7 +26,7 @@ jobs:
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - name: Verify Dagger install
-        run: dagger version 
+        run: dagger version
 
       # Running locally instead of using the action because 
       # it was throwing an error on the GitHub side

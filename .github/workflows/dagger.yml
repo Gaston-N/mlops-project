@@ -39,16 +39,26 @@ jobs:
         with:
           name: model
           path: output/lead_model_lr.pkl
-          
-      # Rename to model/model.pkl for the validator   
-      - name: Download and rename artifact
+      
+      # renaming path and model for the validator 
+      - name: Download artifact for renaming
         uses: actions/download-artifact@v4
         with:
           name: model
-          path: model
-      - name: Rename model file
-        run: |
-          mv model/lead_model_lr.pkl model/model.pkl
+          path: model-temp
           
+      - name: Prepare model for validator
+        run: |
+          mkdir -p model
+          mv model-temp/lead_model_lr.pkl model/model.pkl
+          rm -rf model-temp
+          
+      - name: Re-upload with correct name
+        uses: actions/upload-artifact@v4.4.0
+        with:
+          name: model
+          path: model/model.pkl
+          overwrite: true
+
       - name: Run Model Inference Test Action
         uses: lasselundstenjensen/itu-sdse-project-model-validator@main

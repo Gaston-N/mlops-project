@@ -23,20 +23,16 @@ jobs:
 
       - name: Install Dagger CLI
         run: |
-          curl -fL https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.19.7 sh
-          ls -la "$HOME/.local/bin"
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
-
+          curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.19.7 sh
+          sudo mv ./bin/dagger /usr/local/bin/
+          
       - name: Verify Dagger install
         run: dagger version
 
       # Running locally instead of using the action because 
       # it was throwing an error on the GitHub side
       - name: Run Dagger pipeline
-        run: |
-          export PATH="$HOME/.local/bin:$PATH"
-          dagger version
-          dagger run go run pipeline.go
+        run: dagger run go run pipeline.go
 
       - name: Upload Model Artifact
         uses: actions/upload-artifact@v4.4.0

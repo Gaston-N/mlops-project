@@ -1,25 +1,25 @@
-name: Setup Dagger Pipeline
+name: Run Dagger Pipeline
 
 on:
   push:
     branches:
       - main
+  pull_request:
   workflow_dispatch:
 
 jobs:
   dagger:
-    name: Run Dagger pipeline
+    name : Run Dagger pipeline
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Go
+      - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: "1.25.0"
-          cache: false
+          go-version: '1.25.4'
 
       - name: Install Go dependencies
         run: |
@@ -38,7 +38,27 @@ jobs:
         uses: actions/upload-artifact@v4.4.0
         with:
           name: model
-          path: data/processed/lead_model_lr.pkl
+          path: output/lead_model_lr.pkl
+      
+      # renaming path and model for the validator 
+      - name: Download artifact for renaming
+        uses: actions/download-artifact@v4
+        with:
+          name: model
+          path: model-temp
+          
+      - name: Prepare model for validator
+        run: |
+          mkdir -p model
+          mv model-temp/lead_model_lr.pkl model/model.pkl
+          rm -rf model-temp
+          
+      - name: Re-upload with correct name
+        uses: actions/upload-artifact@v4.4.0
+        with:
+          name: model
+          path: model/model.pkl
+          overwrite: true
 
       - name: Run Model Inference Test Action
         uses: lasselundstenjensen/itu-sdse-project-model-validator@main

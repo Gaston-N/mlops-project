@@ -45,7 +45,7 @@ func executeBuild(ctx context.Context) error {
 		pythonContainer = pythonContainer.WithExec(cmd)
 	}
 
-	if _, err := pythonContainer.Directory(projectPath+"/data/processed").Export(ctx, "output"); err != nil {
+	if _, err := pythonContainer.Directory(projectPath+"/artifacts").Export(ctx, "output"); err != nil {
 		return fmt.Errorf("failed to export artifacts: %w", err)
 	}
 

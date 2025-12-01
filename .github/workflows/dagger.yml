@@ -1,4 +1,4 @@
-name: Manual Dagger Pipeline
+name: Run Dagger Pipeline
 
 on:
   push:

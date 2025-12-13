@@ -23,3 +23,10 @@ def sample_data():
         'bin_source': 'group_1'
     })
 
+# performance thresholds for model evaluation
+@pytest.fixture
+def min_thresholds():
+    return {
+        'f1_score': 0.5,
+        'accuracy': 0.6,
+    }

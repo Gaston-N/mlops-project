@@ -1,4 +1,15 @@
-# Final MLOPs Project – MLOps Pipeline
+# Final MLOps Project – MLOps Pipeline
+
+
+## Project Overview
+---
+
+This repository contains the **Final MLOps Project**, which implements a simple end-to-end **MLOps pipeline** following the **Cookiecutter Data Science (CCDS)** structure.
+The project automates data preprocessing, model training, model selection, and deployment using **Dagger** and **GitHub Actions**.
+
+The goal of this project is to restructure a Python monolith into a clean, modular MLOps project and demonstrate workflow automation and reproducibility.
+
+---
 
 ## Table of Contents
 
@@ -16,15 +27,6 @@
 * [Artifacts and Outputs](#artifacts-and-outputs)
 * [CI/CD Integration](#cicd-integration)
 * [How to Run Locally](#how-to-run-locally)
-
----
-
-## Project Overview
-
-This repository contains the **Final MLOPs Project**, which implements a simple end-to-end **MLOps pipeline** following the **Cookiecutter Data Science (CCDS)** structure.
-The project automates data preprocessing, model training, model selection, and deployment using **Dagger** and **GitHub Actions**.
-
-The goal of this project is to restructure a Python monolith into a clean, modular MLOps project and demonstrate workflow automation and reproducibility.
 
 ---
 
@@ -82,27 +84,29 @@ After a successful pipeline run:
 
 ## CI/CD Integration
 
-The GitHub Actions workflow:
+The project uses multiple GitHub Actions workflows:
 
-* Runs the Dagger pipeline
-* Uploads the trained model as an artifact using `actions/upload-artifact`
-* Runs a model validation action to test inference
+* **Tests workflow**
 
-This ensures a **fully automated and reproducible MLOps workflow**.
+  * Runs unit and integration tests
+  * Executed as a separate GitHub Action
+  * Can be triggered independently and is executed before the main pipeline workflow
+  * Helps identify failures early and isolate issues
+
+* **Main pipeline workflow**
+
+  * Runs the Dagger-based MLOps pipeline
+  * Uploads the trained model as an artifact using `actions/upload-artifact`
+  * Runs a model validation step to test inference
+
+This setup ensures a **fully automated, test-first, and reproducible MLOps workflow**.
 
 ---
 
 ## How to Run Locally
 
 ```bash
-# Install dependencies
-pip install -r requirements.txt
-
-# Run preprocessing
-python src/preprocessing.py
-
-# Train model
-python src/modeling/train.py
+go run pipeline.go
 ```
 
 ---

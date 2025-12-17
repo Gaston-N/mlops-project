@@ -106,7 +106,7 @@ This setup ensures a **fully automated, test-first, and reproducible MLOps workf
 ## How to Run Locally
 
 ```bash
-go run pipeline.go
+dagger run go run pipeline.go
 ```
 
 ---
